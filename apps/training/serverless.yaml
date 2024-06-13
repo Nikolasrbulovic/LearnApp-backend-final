@@ -1,0 +1,88 @@
+service: trainings
+
+plugins:
+  - serverless-dynamodb
+  - serverless-offline
+
+package:
+  excludeDevDependencies: true
+  patterns:
+    - '!src/**'
+    - dist/**
+    - '!node_modules/**'
+    - '!test/**'
+
+custom:
+  serverless-offline:
+    httpPort: 3003
+    host: 0.0.0.0
+    lambdaPort: 3005
+  serverless-dynamodb:
+    start:
+      port: 8000
+      docker: false
+      seed: true
+      migrate: true
+    seed:
+      trainings:
+        sources:
+          - table: trainings
+            sources: [./seed/trainings.json]
+
+functions:
+  getTrainings:
+    handler: dist/training/src/lambdas/get-trainings.getTrainings
+    events:
+      - http:
+          method: get
+          path: /trainings
+          cors: true
+  postTraining:
+    handler: dist/training/src/lambdas/post-training.postTraining
+    events:
+      - http:
+          method: post
+          path: /trainings
+          cors: true
+  searchTrainings:
+    handler: dist/training/src/lambdas/search-trainings.searchTrainings
+    events:
+      - http:
+          method: get
+          path: /trainings/search
+          cors: true
+
+provider:
+  name: aws
+  region: eu-central-1
+  runtime: nodejs18.x
+  stage: dev
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+          Resource:
+            - 'arn:aws:dynamodb:us-east-1:471112551028:table/trainings'
+
+resources:
+  Resources:
+    TrainingsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trainings
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

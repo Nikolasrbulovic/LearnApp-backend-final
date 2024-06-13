@@ -1,0 +1,207 @@
+service: users
+
+plugins:
+  - serverless-dynamodb
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3003
+    lambdaPort: 3005
+  serverless-dynamodb:
+    start:
+      port: 8000
+      docker: false
+      seed: true
+      migrate: true
+    seed:
+      users:
+        sources:
+          - table: users
+            sources: [./seed/users.json]
+      specializations:
+        sources:
+          - table: specializations
+            sources: [./seed/specializations.json]
+      trainers:
+        sources:
+          - table: trainers
+            sources: [./seed/trainers.json]
+
+functions:
+  register:
+    handler: dist/lambdas/register.register
+    events:
+      - http:
+          method: post
+          path: auth/register
+          cors: true
+  login:
+    handler: dist/lambdas/login.login
+    events:
+      - http:
+          method: post
+          path: auth/login
+          cors: true
+  getMe:
+    handler: dist/lambdas/get-me.getMe
+    events:
+      - http:
+          method: get
+          path: users/me
+          cors: true
+  deleteUser:
+    handler: dist/lambdas/delete-user.deleteUser
+    events:
+      - http:
+          method: delete
+          path: users/me
+          cors: true
+  uploadPhoto:
+    handler: dist/lambdas/upload-photo.uploadPhoto
+    events:
+      - http:
+          method: post
+          path: users/upload-photo
+          cors: true
+  updatePassword:
+    handler: dist/lambdas/update-password.updatePassword
+    events:
+      - http:
+          method: put
+          path: users/update-password
+          cors: true
+  getSpecializations:
+    handler: dist/lambdas/get-specializations.getSpecializations
+    events:
+      - http:
+          method: get
+          path: users/specializations
+          cors: true
+
+provider:
+  name: aws
+  region: eu-central-1
+  runtime: nodejs18.x
+  stage: dev
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+          Resource:
+            - 'arn:aws:dynamodb:us-east-1:471112551028:table/users'
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:ListBucket
+          Resource:
+            - 'arn:aws:s3:::lambda-dependency-bucket'
+            - 'arn:aws:s3:::lambda-dependency-bucket/*'
+
+package:
+  excludeDevDependencies: true
+  patterns:
+    - '!src/**'
+    - dist/**
+    - '!node_modules/**'
+    - '!test/**'
+
+resources:
+  Resources:
+    UsersTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: UsernameIndex
+            KeySchema:
+              - AttributeName: username
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+    SpecializationsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: specializations
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+    TrainersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trainers
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: userIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+    StudentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: students
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: userIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5

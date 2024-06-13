@@ -1,0 +1,480 @@
+{
+  "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training": {
+    "versionSfCore": null,
+    "versionFramework": "4.1.2",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "self": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "trainings",
+            "plugins": [
+              "serverless-dynamodb",
+              "serverless-offline"
+            ],
+            "package": {
+              "excludeDevDependencies": true,
+              "patterns": [
+                "!src/**",
+                "dist/**",
+                "!node_modules/**",
+                "!test/**"
+              ],
+              "artifactsS3KeyDirname": "serverless/trainings/dev/code-artifacts"
+            },
+            "custom": {
+              "serverless-offline": {
+                "httpPort": 3003,
+                "host": "0.0.0.0",
+                "lambdaPort": 3005
+              },
+              "serverless-dynamodb": {
+                "start": {
+                  "port": 8000,
+                  "docker": false,
+                  "seed": true,
+                  "migrate": true
+                },
+                "seed": {
+                  "trainings": {
+                    "sources": [
+                      {
+                        "table": "trainings",
+                        "sources": [
+                          "./seed/trainings.json"
+                        ]
+                      }
+                    ]
+                  },
+                  "trainers": {
+                    "sources": [
+                      {
+                        "table": "trainers",
+                        "sources": [
+                          "./seed/trainers.json"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "functions": {
+              "getTrainings": {
+                "handler": "dist/lambdas/get-trainings.getTrainings",
+                "events": [
+                  {
+                    "http": {
+                      "method": "get",
+                      "path": "/trainings",
+                      "cors": true
+                    }
+                  }
+                ],
+                "name": "trainings-dev-getTrainings"
+              },
+              "postTraining": {
+                "handler": "dist/lambdas/post-training.postTraining",
+                "events": [
+                  {
+                    "http": {
+                      "method": "post",
+                      "path": "/trainings",
+                      "cors": true
+                    }
+                  }
+                ],
+                "name": "trainings-dev-postTraining"
+              }
+            },
+            "provider": {
+              "name": "aws",
+              "region": "eu-central-1",
+              "runtime": "nodejs18.x",
+              "stage": "dev",
+              "environment": {
+                "DYNAMODB_TABLE": "trainings-dev"
+              },
+              "iam": {
+                "role": {
+                  "statements": [
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "dynamodb:Query",
+                        "dynamodb:Scan",
+                        "dynamodb:GetItem",
+                        "dynamodb:UpdateItem"
+                      ],
+                      "Resource": "arn:aws:dynamodb:us-east-1:471112551028:table/trainings"
+                    }
+                  ]
+                }
+              },
+              "versionFunctions": true
+            },
+            "resources": {
+              "Resources": {
+                "TrainingsTable": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "trainings",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "configFileDirPath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training",
+          "config": {
+            "type": "self"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null
+        },
+        "resolvers": {}
+      },
+      "opt": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "trainings",
+            "plugins": [
+              "serverless-dynamodb",
+              "serverless-offline"
+            ],
+            "package": {
+              "excludeDevDependencies": true,
+              "patterns": [
+                "!src/**",
+                "dist/**",
+                "!node_modules/**",
+                "!test/**"
+              ],
+              "artifactsS3KeyDirname": "serverless/trainings/dev/code-artifacts"
+            },
+            "custom": {
+              "serverless-offline": {
+                "httpPort": 3003,
+                "host": "0.0.0.0",
+                "lambdaPort": 3005
+              },
+              "serverless-dynamodb": {
+                "start": {
+                  "port": 8000,
+                  "docker": false,
+                  "seed": true,
+                  "migrate": true
+                },
+                "seed": {
+                  "trainings": {
+                    "sources": [
+                      {
+                        "table": "trainings",
+                        "sources": [
+                          "./seed/trainings.json"
+                        ]
+                      }
+                    ]
+                  },
+                  "trainers": {
+                    "sources": [
+                      {
+                        "table": "trainers",
+                        "sources": [
+                          "./seed/trainers.json"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "functions": {
+              "getTrainings": {
+                "handler": "dist/lambdas/get-trainings.getTrainings",
+                "events": [
+                  {
+                    "http": {
+                      "method": "get",
+                      "path": "/trainings",
+                      "cors": true
+                    }
+                  }
+                ],
+                "name": "trainings-dev-getTrainings"
+              },
+              "postTraining": {
+                "handler": "dist/lambdas/post-training.postTraining",
+                "events": [
+                  {
+                    "http": {
+                      "method": "post",
+                      "path": "/trainings",
+                      "cors": true
+                    }
+                  }
+                ],
+                "name": "trainings-dev-postTraining"
+              }
+            },
+            "provider": {
+              "name": "aws",
+              "region": "eu-central-1",
+              "runtime": "nodejs18.x",
+              "stage": "dev",
+              "environment": {
+                "DYNAMODB_TABLE": "trainings-dev"
+              },
+              "iam": {
+                "role": {
+                  "statements": [
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "dynamodb:Query",
+                        "dynamodb:Scan",
+                        "dynamodb:GetItem",
+                        "dynamodb:UpdateItem"
+                      ],
+                      "Resource": "arn:aws:dynamodb:us-east-1:471112551028:table/trainings"
+                    }
+                  ]
+                }
+              },
+              "versionFunctions": true
+            },
+            "resources": {
+              "Resources": {
+                "TrainingsTable": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "trainings",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "configFileDirPath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training",
+          "config": {
+            "type": "opt"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training",
+    "serviceConfigFileName": "serverless.yaml",
+    "service": {
+      "service": "trainings",
+      "plugins": [
+        "serverless-dynamodb",
+        "serverless-offline"
+      ],
+      "package": {
+        "excludeDevDependencies": true,
+        "patterns": [
+          "!src/**",
+          "dist/**",
+          "!node_modules/**",
+          "!test/**"
+        ],
+        "artifactsS3KeyDirname": "serverless/trainings/dev/code-artifacts"
+      },
+      "custom": {
+        "serverless-offline": {
+          "httpPort": 3003,
+          "host": "0.0.0.0",
+          "lambdaPort": 3005
+        },
+        "serverless-dynamodb": {
+          "start": {
+            "port": 8000,
+            "docker": false,
+            "seed": true,
+            "migrate": true
+          },
+          "seed": {
+            "trainings": {
+              "sources": [
+                {
+                  "table": "trainings",
+                  "sources": [
+                    "./seed/trainings.json"
+                  ]
+                }
+              ]
+            },
+            "trainers": {
+              "sources": [
+                {
+                  "table": "trainers",
+                  "sources": [
+                    "./seed/trainers.json"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "functions": {
+        "getTrainings": {
+          "handler": "dist/lambdas/get-trainings.getTrainings",
+          "events": [
+            {
+              "http": {
+                "method": "get",
+                "path": "/trainings",
+                "cors": true
+              }
+            }
+          ],
+          "name": "trainings-dev-getTrainings"
+        },
+        "postTraining": {
+          "handler": "dist/lambdas/post-training.postTraining",
+          "events": [
+            {
+              "http": {
+                "method": "post",
+                "path": "/trainings",
+                "cors": true
+              }
+            }
+          ],
+          "name": "trainings-dev-postTraining"
+        }
+      },
+      "provider": {
+        "name": "aws",
+        "region": "eu-central-1",
+        "runtime": "nodejs18.x",
+        "stage": "dev",
+        "environment": {
+          "DYNAMODB_TABLE": "trainings-dev"
+        },
+        "iam": {
+          "role": {
+            "statements": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "dynamodb:Query",
+                  "dynamodb:Scan",
+                  "dynamodb:GetItem",
+                  "dynamodb:UpdateItem"
+                ],
+                "Resource": "arn:aws:dynamodb:us-east-1:471112551028:table/trainings"
+              }
+            ]
+          }
+        },
+        "versionFunctions": true
+      },
+      "resources": {
+        "Resources": {
+          "TrainingsTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "trainings",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ],
+              "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+              }
+            }
+          }
+        }
+      }
+    },
+    "serviceRawFile": "service: trainings\r\n\r\nplugins:\r\n  - serverless-dynamodb\r\n  - serverless-offline\r\n\r\npackage:\r\n  excludeDevDependencies: true\r\n  patterns:\r\n    - '!src/**'\r\n    - dist/**\r\n    - '!node_modules/**'\r\n    - '!test/**'\r\n\r\ncustom:\r\n  serverless-offline:\r\n    httpPort: 3003\r\n    host: 0.0.0.0\r\n    lambdaPort: 3005\r\n  serverless-dynamodb:\r\n    start:\r\n      port: 8000\r\n      docker: false\r\n      seed: true\r\n      migrate: true\r\n    seed:\r\n      trainings:\r\n        sources:\r\n          - table: trainings\r\n            sources: [./seed/trainings.json]\r\n      trainers:\r\n        sources:\r\n          - table: trainers\r\n            sources: [./seed/trainers.json]\r\n\r\nfunctions:\r\n  getTrainings:\r\n    handler: dist/lambdas/get-trainings.getTrainings\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: /trainings\r\n          cors: true\r\n  postTraining:\r\n    handler: dist/lambdas/post-training.postTraining\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: /trainings\r\n          cors: true\r\n\r\nprovider:\r\n  name: aws\r\n  region: eu-central-1\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  environment:\r\n    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:Query\r\n            - dynamodb:Scan\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n          Resource:\r\n            - 'arn:aws:dynamodb:us-east-1:471112551028:table/trainings'\r\n\r\nresources:\r\n  Resources:\r\n    TrainingsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainings\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n",
+    "command": [
+      "dynamodb",
+      "start"
+    ],
+    "options": {},
+    "error": {
+      "message": "source file C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training\\seed\\trainers.json does not exist",
+      "stack": "Error: source file C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\apps\\training\\seed\\trainers.json does not exist\n    at C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\node_modules\\serverless-dynamodb\\dist\\seeder.js:118:19\n    at Array.map (<anonymous>)\n    at locateSeeds (C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\node_modules\\serverless-dynamodb\\dist\\seeder.js:116:22)\n    at C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\node_modules\\serverless-dynamodb\\dist\\index.js:251:178\n    at Array.map (<anonymous>)\n    at ServerlessDynamoDBPlugin.seedHandler (C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\node_modules\\serverless-dynamodb\\dist\\index.js:247:48)\n    at ServerlessDynamoDBPlugin.startHandler (C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\Backend\\backend\\node_modules\\serverless-dynamodb\\dist\\index.js:284:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async PluginManager.runHooks (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1008:9290)\n    at async PluginManager.invoke (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1008:10056)\n    at async PluginManager.run (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1008:10779)\n    at async Serverless.run (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1015:10442)\n    at async runFramework (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1059:2314)\n    at async route (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1068:14692)\n    at async Object.run2 [as run] (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1068:15090)\n    at async run3 (file:///C:/Users/nsrbu/.serverless/releases/4.1.2/package/dist/sf-core.js:1068:16324)"
+    },
+    "params": {},
+    "machineId": "b6f70bfef0296e3c56f5878dc8bb87ee",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "b89a915c-56c2-4719-9db3-29c4ded9708c",
+    "orgName": "nikolasrbulovic",
+    "userId": "5m2GT5TsG4BPCzVfYq",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "nikolasrbulovic",
+    "subscription": null,
+    "userEmail": "n.srbulovic@hotmail.com",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "471112551028",
+    "versionSf": "4.1.2",
+    "serviceProviderAwsCfStackName": "trainings-dev",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "111",
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "photo": "http://example.com/photos/john_doe.jpg",
+    "password": "hashed_password",
+    "isActive": true
+  },
+  {
+    "id": "222",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "username": "jane_smith",
+    "email": "jane.smith@example.com",
+    "photo": "http://example.com/photos/jane_smith.jpg",
+    "password": "hashed_password",
+    "isActive": true
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "data-science",
+    "specialization": "Data Science"
+  },
+  {
+    "id": "machine-learning",
+    "specialization": "Machine Learning"
+  },
+  {
+    "id": "cybersecurity",
+    "specialization": "Cybersecurity"
+  },
+  {
+    "id": "cloud-computing",
+    "specialization": "Cloud Computing"
+  },
+  {
+    "id": "mobile-app-development",
+    "specialization": "Mobile App Development"
+  },
+  {
+    "id": "devops",
+    "specialization": "DevOps"
+  },
+  {
+    "id": "database-administration",
+    "specialization": "Database Administration"
+  },
+  {
+    "id": "software-engineering",
+    "specialization": "Software Engineering"
+  },
+  {
+    "id": "artificial-intelligence",
+    "specialization": "Artificial Intelligence"
+  },
+  {
+    "id": "ui-ux-design",
+    "specialization": "UI/UX Design"
+  },
+  {
+    "id": "network-administration",
+    "specialization": "Network Administration"
+  },
+  {
+    "id": "big-data-analytics",
+    "specialization": "Big Data Analytics"
+  },
+  {
+    "id": "blockchain-development",
+    "specialization": "Blockchain Development"
+  },
+  {
+    "id": "game-development",
+    "specialization": "Game Development"
+  }
+]

@@ -1,0 +1,5 @@
+services:
+  pets:
+    path: apps/training
+  users:
+    path: apps/users
