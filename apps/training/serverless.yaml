@@ -3,7 +3,7 @@ service: trainings
 plugins:
   - serverless-dynamodb
   - serverless-offline
-
+  - serverless-dotenv-plugin
 package:
   excludeDevDependencies: true
   patterns:
@@ -14,20 +14,14 @@ package:
 
 custom:
   serverless-offline:
-    httpPort: 3003
-    host: 0.0.0.0
-    lambdaPort: 3005
+    httpPort: 3004
+    lambdaPort: 3006
   serverless-dynamodb:
     start:
       port: 8000
       docker: false
       seed: true
       migrate: true
-    seed:
-      trainings:
-        sources:
-          - table: trainings
-            sources: [./seed/trainings.json]
 
 functions:
   getTrainings:
@@ -59,6 +53,7 @@ provider:
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}
   iam:
     role:
       statements:
@@ -70,19 +65,3 @@ provider:
             - dynamodb:UpdateItem
           Resource:
             - 'arn:aws:dynamodb:us-east-1:471112551028:table/trainings'
-
-resources:
-  Resources:
-    TrainingsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: trainings
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5

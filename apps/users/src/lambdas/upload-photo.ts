@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { UsersModule } from '../users.module';
 import { UserService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
+import { handleError } from 'shared/utils/handleError';
 
 export const uploadPhoto = async (event: any) => {
   try {
@@ -9,25 +10,17 @@ export const uploadPhoto = async (event: any) => {
     const userService = app.get(UserService);
     const jwtService = app.get(JwtService);
 
-    const authHeader = event.headers.Authorization;
-    if (!authHeader) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ message: 'Unauthorized' }),
-      };
+    const token = event.headers.Authorization.split(' ')[1];
+
+    const decodedToken = jwtService.verify(token, {
+      secret: 'my_jwt_secret_key_1',
+    });
+
+    if (!decodedToken) {
+      throw new Error('Invalid token');
     }
 
-    const token = authHeader.split(' ')[1];
-    const decodedToken = jwtService.decode(token);
-
-    if (!decodedToken || typeof decodedToken !== 'object' || !decodedToken['username']) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ message: 'Unauthorized' }),
-      };
-    }
-
-    const username = decodedToken['username'];
+    const username = decodedToken.username;
     const requestBody = JSON.parse(event.body);
     const { photoUrl } = requestBody;
 
@@ -45,11 +38,6 @@ export const uploadPhoto = async (event: any) => {
       body: JSON.stringify({ message: 'Photo updated successfully', photoUrl }),
     };
   } catch (error) {
-    console.error('Error occurred:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return handleError(error);
   }
 };
-

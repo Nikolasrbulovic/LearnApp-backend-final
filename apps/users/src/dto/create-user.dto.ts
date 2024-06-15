@@ -12,6 +12,7 @@ export class CreateUserDto {
   id?: string;
 
   @IsString()
+  @IsOptional()
   username: string;
 
   @IsString()
@@ -24,14 +25,18 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
+  @IsOptional()
   password: string;
 
   @IsString()
+  @IsOptional()
   photo?: string;
 
   @IsBoolean()
+  @IsOptional()
   isActive: boolean;
 
   @IsString()
+  @IsOptional()
   role: string;
 }

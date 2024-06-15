@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './users.service';
 import { DynamoDBService } from './dynamodb.service';
-import { JwtStrategy } from './utils/jwt.strategy';
+import { JwtStrategy } from '../../../shared/middleware/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'yourSecretKey', // replace with your secret key
-      signOptions: { expiresIn: '1h' },
+      secret: 'my_jwt_secret_key_1',
+      signOptions: { expiresIn: '3h' },
     }),
   ],
   exports: [UserService, DynamoDBService],

@@ -9,10 +9,19 @@ export class DynamoDBService {
   private readonly dynamoDB: AWS.DynamoDB.DocumentClient;
 
   constructor() {
+    require('dotenv').config();
+
+    console.log(
+      process.env.LOCAL_ENDPOINT,
+      process.env.AWS_ACCESS_KEY_ID,
+      'xx',
+    );
     this.dynamoDB = new AWS.DynamoDB.DocumentClient({
-      region: 'eu-central-1',
-      endpoint: 'http://localhost:8000',
+      region: process.env.AWS_REGION,
+      endpoint: process.env.LOCAL_ENDPOINT,
       convertEmptyValues: true,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     });
   }
 

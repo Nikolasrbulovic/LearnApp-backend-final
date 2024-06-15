@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { UsersModule } from '../users.module';
 import { UserService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
+import { handleError } from 'shared/utils/handleError';
 
 export const login = async (event: any) => {
   try {
@@ -14,7 +15,7 @@ export const login = async (event: any) => {
     if (!user) {
       return {
         statusCode: 401,
-        body: JSON.stringify({ message: 'Invalid username or password' })
+        body: JSON.stringify({ message: 'Invalid username or password' }),
       };
     }
     const payload = { username: user.username, sub: user.id };
@@ -22,13 +23,9 @@ export const login = async (event: any) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ authToken: token })
+      body: JSON.stringify({ authToken: token, user: user }),
     };
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' })
-    };
+    return handleError(error);
   }
-
-}
+};

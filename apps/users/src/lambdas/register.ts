@@ -2,16 +2,19 @@ import { NestFactory } from '@nestjs/core';
 import { UsersModule } from '../users.module';
 import { UserService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
-import { generateUniqueID } from '../utils/generateId';
-import { generateUsernameAndPassword } from '../utils/generateUsernameAndPassword';
+import { generateUniqueID } from '../../../../shared/utils/generateId';
+import { generateUsernameAndPassword } from '../../../../shared/utils/generateUsernameAndPassword';
 import * as bcrypt from 'bcrypt';
+import { validateDto } from 'shared/utils/validate-dto';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { handleError } from 'shared/utils/handleError';
 export const register = async (event: any) => {
   try {
     const app = await NestFactory.create(UsersModule);
     const userService = app.get(UserService);
     const jwtService = app.get(JwtService);
     const { userType, ...userData } = JSON.parse(event.body);
-
+    await validateDto(CreateUserDto, { ...userData, userType });
     const { username, password } = generateUsernameAndPassword(
       userData.firstName,
       userData.lastName,
@@ -55,9 +58,6 @@ export const register = async (event: any) => {
     };
   } catch (error) {
     console.log(error, 'xx');
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return handleError(error);
   }
 };

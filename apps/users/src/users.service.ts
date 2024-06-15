@@ -61,10 +61,15 @@ export class UserService {
   async updateUserPhoto(username: string, photoUrl: string): Promise<void> {
     return await this.dynamoDBService.updateUserPhoto(username, photoUrl);
   }
-  trainer;
   async updatePassword(username: string, password: string): Promise<void> {
     const hashedPassword = await bcrypt.hash(password, 10);
     return await this.dynamoDBService.updatePassword(username, hashedPassword);
+  }
+  async comparePasswords(
+    providedPassword: string,
+    storedPassword: string,
+  ): Promise<boolean> {
+    return bcrypt.compare(providedPassword, storedPassword);
   }
   async addStudent(student: CreateStudentDto): Promise<Student> {
     await this.dynamoDBService.addStudent(student);

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "studentId": "student-123",
+    "trainerId": "trainer-456",
+    "name": "Javascript",
+    "type": {
+      "id": "type-1",
+      "type": "React"
+    },
+    "date": "2024-06-12T06:00:00Z",
+    "duration": 60,
+    "description": "A Js training."
+  },
+  {
+    "id": "2",
+    "studentId": "student-12455",
+    "trainerId": "trainer-45655",
+    "name": "javascript",
+    "type": {
+      "id": "type-1",
+      "type": "Nodejs"
+    },
+    "date": "2024-06-12T06:00:00Z",
+    "duration": 60,
+    "description": "A Js training."
+  }
+
+]

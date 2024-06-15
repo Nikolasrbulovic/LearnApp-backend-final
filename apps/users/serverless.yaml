@@ -1,6 +1,7 @@
 service: users
 
 plugins:
+  - serverless-dotenv-plugin
   - serverless-dynamodb
   - serverless-offline
 
@@ -27,52 +28,56 @@ custom:
         sources:
           - table: trainers
             sources: [./seed/trainers.json]
+      trainings:
+        sources:
+          - table: trainings
+            sources: [./seed/trainings.json]
 
 functions:
   register:
-    handler: dist/lambdas/register.register
+    handler: dist/apps/users/src/lambdas/register.register
     events:
       - http:
           method: post
           path: auth/register
           cors: true
   login:
-    handler: dist/lambdas/login.login
+    handler: dist/apps/users/src/lambdas/login.login
     events:
       - http:
           method: post
           path: auth/login
           cors: true
   getMe:
-    handler: dist/lambdas/get-me.getMe
+    handler: dist/apps/users/src/lambdas/get-me.getMe
     events:
       - http:
           method: get
           path: users/me
           cors: true
   deleteUser:
-    handler: dist/lambdas/delete-user.deleteUser
+    handler: dist/apps/users/src/lambdas/delete-user.deleteUser
     events:
       - http:
           method: delete
           path: users/me
           cors: true
   uploadPhoto:
-    handler: dist/lambdas/upload-photo.uploadPhoto
+    handler: dist/apps/users/src/lambdas/upload-photo.uploadPhoto
     events:
       - http:
           method: post
           path: users/upload-photo
           cors: true
   updatePassword:
-    handler: dist/lambdas/update-password.updatePassword
+    handler: dist/apps/users/src/lambdas/update-password.updatePassword
     events:
       - http:
           method: put
           path: users/update-password
           cors: true
   getSpecializations:
-    handler: dist/lambdas/get-specializations.getSpecializations
+    handler: dist/apps/users/src/lambdas/get-specializations.getSpecializations
     events:
       - http:
           method: get
@@ -86,6 +91,7 @@ provider:
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}
   iam:
     role:
       statements:
@@ -205,3 +211,16 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 5
               WriteCapacityUnits: 5
+    TrainingsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trainings
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

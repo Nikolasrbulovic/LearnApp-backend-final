@@ -2,44 +2,57 @@ import { NestFactory } from '@nestjs/core';
 import { UsersModule } from '../users.module';
 import { UserService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
+import { handleError } from 'shared/utils/handleError';
 
 export const updatePassword = async (event: any) => {
-
   try {
     const app = await NestFactory.create(UsersModule);
     const userService = app.get(UserService);
     const jwtService = app.get(JwtService);
-  
-    const authHeader = event.headers.Authorization;
-    if (!authHeader) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ message: 'Unauthorized' }),
-      };
-    }
-  
-    const token = authHeader.split(' ')[1];
-    const decodedToken = jwtService.decode(token);
+    const token = event.headers.Authorization.split(' ')[1];
 
-    if (!decodedToken || typeof decodedToken !== 'object' || !decodedToken['username']) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ message: 'Unauthorized' }),
-      };
-    }
+    const decodedToken = jwtService.verify(token, {
+      secret: 'my_jwt_secret_key_1',
+    });
 
-    const username = decodedToken['username'];
+    if (!decodedToken) {
+      throw new Error('Invalid token');
+    }
+    const username = decodedToken.username;
+    const user = await userService.getUser(username);
+
     const requestBody = JSON.parse(event.body);
-    const { password } = requestBody;
-
-    if (!password) {
+    const { oldPassword, newPassword, newPasswordConfirmed } = requestBody;
+    if (!oldPassword || !newPassword) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'password is required' }),
+        body: JSON.stringify({
+          message: 'Old password and new password are required',
+        }),
+      };
+    }
+    if (newPassword !== newPasswordConfirmed) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: 'Old and new password must match.',
+        }),
       };
     }
 
-    await userService.updatePassword(username, password);
+    const isOldPasswordMatch = await userService.comparePasswords(
+      oldPassword,
+      user.password,
+    );
+
+    if (!isOldPasswordMatch) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ message: 'Old password is incorrect' }),
+      };
+    }
+
+    await userService.updatePassword(username, newPassword);
 
     return {
       statusCode: 200,
@@ -47,9 +60,6 @@ export const updatePassword = async (event: any) => {
     };
   } catch (error) {
     console.error('Error registering user:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' })
-    };
+    return handleError(error);
   }
-}
+};
