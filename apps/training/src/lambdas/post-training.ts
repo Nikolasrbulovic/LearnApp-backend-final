@@ -12,7 +12,7 @@ export const postTraining = async (event: any) => {
     const trainingService = app.get(TrainingService);
     const jwtService = app.get(JwtService);
     const userService = app.get(UserService);
-    const trainingData = JSON.parse(event.body);
+    const { trainerId, ...trainingData } = JSON.parse(event.body);
 
     const token = event.headers.Authorization.split(' ')[1];
 

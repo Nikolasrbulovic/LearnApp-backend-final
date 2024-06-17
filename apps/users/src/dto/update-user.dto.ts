@@ -1,4 +1,10 @@
-import { IsString, IsEmail, IsOptional, IsInt } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  IsInt,
+  IsBoolean,
+} from 'class-validator';
 
 export class UpdateUserDto {
   @IsInt()
@@ -32,4 +38,8 @@ export class UpdateUserDto {
   @IsInt()
   @IsOptional()
   userStatus?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean;
 }

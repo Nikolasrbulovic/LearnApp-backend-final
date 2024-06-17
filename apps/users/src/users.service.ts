@@ -6,6 +6,8 @@ import { CreateTraierDto } from './dto/create-trainer.dto';
 import { Student, Trainer, User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { Specialization } from './specialization.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateStudentDto } from './dto/update-student.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly dynamoDBService: DynamoDBService) {}
@@ -15,16 +17,16 @@ export class UserService {
     await this.dynamoDBService.register(user);
     return user;
   }
-  async validateUser(username: string, password: string): Promise<User | null> {
-    const user = await this.dynamoDBService.findByUsername(username);
+  async validateUser(id: string, password: string): Promise<User | null> {
+    const user = await this.dynamoDBService.findById(id);
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     }
     return null;
   }
 
-  async getUser(username: string): Promise<User | null> {
-    const user = await this.dynamoDBService.findByUsername(username);
+  async getUser(id: string): Promise<User | null> {
+    const user = await this.dynamoDBService.findById(id);
 
     if (user) {
       return user;
@@ -58,12 +60,12 @@ export class UserService {
   async deleteUserById(id: string): Promise<void> {
     return await this.dynamoDBService.deleteUserById(id);
   }
-  async updateUserPhoto(username: string, photoUrl: string): Promise<void> {
-    return await this.dynamoDBService.updateUserPhoto(username, photoUrl);
+  async updateUserPhoto(id: string, photoUrl: string): Promise<void> {
+    return await this.dynamoDBService.updateUserPhoto(id, photoUrl);
   }
-  async updatePassword(username: string, password: string): Promise<void> {
+  async updatePassword(id: string, password: string): Promise<void> {
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await this.dynamoDBService.updatePassword(username, hashedPassword);
+    return await this.dynamoDBService.updatePassword(id, hashedPassword);
   }
   async comparePasswords(
     providedPassword: string,
@@ -88,5 +90,23 @@ export class UserService {
   async getStudent(userId: string): Promise<Student> {
     const student = await this.dynamoDBService.getStudentByUserId(userId);
     return student;
+  }
+  async updateUser(
+    updateUserDto: UpdateUserDto,
+    updateStudentDto: UpdateStudentDto,
+    userId: string,
+  ) {
+    const { username, firstName, lastName, email, isActive } = updateUserDto;
+    const { dateOfBirth, address } = updateStudentDto;
+    await this.dynamoDBService.updateUserDetails(
+      userId,
+      username,
+      firstName,
+      lastName,
+      email,
+      isActive,
+      dateOfBirth,
+      address,
+    );
   }
 }

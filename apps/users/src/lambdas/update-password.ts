@@ -18,8 +18,8 @@ export const updatePassword = async (event: any) => {
     if (!decodedToken) {
       throw new Error('Invalid token');
     }
-    const username = decodedToken.username;
-    const user = await userService.getUser(username);
+    const userId = decodedToken.userId;
+    const user = await userService.getUser(userId);
 
     const requestBody = JSON.parse(event.body);
     const { oldPassword, newPassword, newPasswordConfirmed } = requestBody;
@@ -52,7 +52,7 @@ export const updatePassword = async (event: any) => {
       };
     }
 
-    await userService.updatePassword(username, newPassword);
+    await userService.updatePassword(userId, newPassword);
 
     return {
       statusCode: 200,

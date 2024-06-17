@@ -87,6 +87,13 @@ functions:
           method: get
           path: users/specializations
           cors: true
+  updateUser:
+    handler: dist/apps/users/src/lambdas/update-user.updateUser
+    events:
+      - http:
+          method: put
+          path: users/update-user
+          cors: true
 
 provider:
   name: aws

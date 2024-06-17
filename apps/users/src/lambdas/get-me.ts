@@ -20,8 +20,8 @@ export const getMe = async (event: any) => {
       throw new Error('Invalid token');
     }
 
-    const username = decodedToken.username;
-    const userData = await userService.getUser(username);
+    const userId = decodedToken.userId;
+    const userData = await userService.getUser(userId);
 
     if (userData.role === 'trainer') {
       const { specializationId, ...trainerData } = await userService.getTrainer(

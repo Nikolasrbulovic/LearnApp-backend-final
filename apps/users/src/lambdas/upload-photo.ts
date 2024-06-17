@@ -20,7 +20,7 @@ export const uploadPhoto = async (event: any) => {
       throw new Error('Invalid token');
     }
 
-    const username = decodedToken.username;
+    const userId = decodedToken.userId;
     const requestBody = JSON.parse(event.body);
     const { photoUrl } = requestBody;
 
@@ -31,7 +31,7 @@ export const uploadPhoto = async (event: any) => {
       };
     }
 
-    await userService.updateUserPhoto(username, photoUrl);
+    await userService.updateUserPhoto(userId, photoUrl);
 
     return {
       statusCode: 200,

@@ -35,16 +35,16 @@ export class DynamoDBService {
     return this.dynamoDB.put(params).promise();
   }
 
-  async findByUsername(username: string): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     const params = {
       TableName: 'users',
-      IndexName: 'UsernameIndex',
-      KeyConditionExpression: 'username = :username',
-      ExpressionAttributeValues: { ':username': username },
+      Key: {
+        id: id,
+      },
     };
 
-    const result = await this.dynamoDB.query(params).promise();
-    return (result.Items?.[0] as User) || null;
+    const result = await this.dynamoDB.get(params).promise();
+    return (result.Item as User) || null;
   }
   async findUsersByFirstname(firstname: string): Promise<User[] | null> {
     const params = {
@@ -106,8 +106,8 @@ export class DynamoDBService {
     await this.dynamoDB.delete(params).promise();
   }
 
-  async updateUserPhoto(username: string, photoUrl: string): Promise<void> {
-    const user = await this.findByUsername(username);
+  async updateUserPhoto(id: string, photoUrl: string): Promise<void> {
+    const user = await this.findById(id);
 
     if (!user) {
       throw new Error('User not found');
@@ -126,8 +126,8 @@ export class DynamoDBService {
     await this.dynamoDB.update(params).promise();
   }
 
-  async updatePassword(username: string, password: string): Promise<void> {
-    const user = await this.findByUsername(username);
+  async updatePassword(id: string, password: string): Promise<void> {
+    const user = await this.findById(id);
 
     if (!user) {
       throw new Error('User not found');
@@ -202,5 +202,99 @@ export class DynamoDBService {
     } catch (error) {
       throw new Error(`Unable to fetch trainer by userId: ${error.message}`);
     }
+  }
+
+  async updateUserDetails(
+    userId: string,
+    username: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    isActive: boolean,
+    dateOfBirth?: string,
+    address?: string,
+  ): Promise<void> {
+    const user = await this.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    let updateExpression =
+      'set username = :username, firstName = :firstName, lastName = :lastName, email = :email, isActive = :isActive';
+    const expressionAttributeValues: { [key: string]: any } = {
+      ':username': username,
+      ':firstName': firstName,
+      ':lastName': lastName,
+      ':email': email,
+      ':isActive': isActive,
+    };
+
+    const params = {
+      TableName: 'users',
+      Key: {
+        id: user.id,
+      },
+      UpdateExpression: updateExpression,
+      ExpressionAttributeValues: expressionAttributeValues,
+    };
+
+    await this.dynamoDB.update(params).promise();
+
+    const fullName = `${firstName} ${lastName}`;
+
+    if (dateOfBirth || address) {
+      await this.updateStudentDetails(user.id, fullName, dateOfBirth, address);
+    } else {
+      await this.updateTrainerDetails(fullName);
+    }
+  }
+  async updateTrainerDetails(trainerFullName: string) {}
+  async updateStudentDetails(
+    userId: string,
+    studentFullName: string,
+    dateOfBirth?: string,
+    address?: string,
+  ): Promise<void> {
+    if (!dateOfBirth && !address) {
+      return;
+    }
+
+    const student = await this.getStudentByUserId(userId);
+
+    if (!student) {
+      throw new Error('Student not found');
+    }
+
+    let updateExpression = '';
+    const expressionAttributeValues: { [key: string]: any } = {};
+
+    updateExpression += 'set studentFullName = :studentFullName';
+    expressionAttributeValues[':studentFullName'] = studentFullName;
+
+    if (dateOfBirth) {
+      updateExpression += ', dateOfBirth = :dateOfBirth';
+      expressionAttributeValues[':dateOfBirth'] = dateOfBirth;
+    }
+
+    if (address) {
+      updateExpression += ', address = :address';
+      expressionAttributeValues[':address'] = address;
+    }
+
+    const params = {
+      TableName: 'students',
+      Key: {
+        id: student.id, // Assuming `id` is the primary key for the students table
+      },
+      UpdateExpression: updateExpression,
+      ExpressionAttributeValues: expressionAttributeValues,
+    };
+
+    console.log('Updating student with params:', params);
+
+    await this.dynamoDB.update(params).promise();
+    const newstudent = await this.getStudentByUserId(userId);
+    console.log(newstudent);
   }
 }

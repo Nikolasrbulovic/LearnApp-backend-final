@@ -67,7 +67,6 @@ export const register = async (event: any) => {
       body: JSON.stringify({ username, password, authToken: token }),
     };
   } catch (error) {
-    console.log(error, 'xx');
     return handleError(error);
   }
 };
