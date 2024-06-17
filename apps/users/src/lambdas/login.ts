@@ -18,7 +18,11 @@ export const login = async (event: any) => {
         body: JSON.stringify({ message: 'Invalid username or password' }),
       };
     }
-    const payload = { username: user.username, sub: user.id };
+    const payload = {
+      username: user.username,
+      sub: user.id,
+      userType: user.role,
+    };
     const token = jwtService.sign(payload);
 
     return {

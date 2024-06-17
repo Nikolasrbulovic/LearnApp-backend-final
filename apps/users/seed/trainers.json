@@ -1,4 +1,14 @@
 [
-  { "id": "1", "userId": "111", "specializationId": "spesc-456" },
-  { "id": "2", "userId": "222", "specializationId": "spec-122" }
+  {
+    "id": "1",
+    "userId": "111",
+    "specializationId": "spesc-456",
+    "trainerName": "john doe"
+  },
+  {
+    "id": "2",
+    "userId": "222",
+    "specializationId": "spec-122",
+    "trainerName": "jane doe"
+  }
 ]

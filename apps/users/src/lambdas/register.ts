@@ -14,7 +14,9 @@ export const register = async (event: any) => {
     const userService = app.get(UserService);
     const jwtService = app.get(JwtService);
     const { userType, ...userData } = JSON.parse(event.body);
+
     await validateDto(CreateUserDto, { ...userData, userType });
+
     const { username, password } = generateUsernameAndPassword(
       userData.firstName,
       userData.lastName,
@@ -38,7 +40,9 @@ export const register = async (event: any) => {
         id: generateUniqueID(),
         userId: newUser.id,
         specializationId: userData.specializationId,
+        trainerFullName: `${newUser.firstName} ${newUser.lastName}`,
       };
+
       await userService.addTrainer(trainer);
     } else {
       const student = {
@@ -46,10 +50,16 @@ export const register = async (event: any) => {
         userId: newUser.id,
         dateOfBirth: userData.dateOfBirth,
         address: userData.address,
+        studentFullName: `${newUser.firstName} ${newUser.lastName}`,
       };
+
       await userService.addStudent(student);
     }
-    const payload = { username: user.username, sub: user.id };
+    const payload = {
+      username: user.username,
+      userId: user.id,
+      userType: userType,
+    };
     const token = jwtService.sign(payload);
 
     return {

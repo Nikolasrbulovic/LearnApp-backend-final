@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DynamoDBService } from './dynamodb.service';
-import { Training } from './training.entity';
+import { Training, TrainingType } from './training.entity';
 import { CreateTrainingDto } from './dto/createTrainingDto';
 import { SearchTrainingsDto } from './dto/searchTrainingDto';
 
@@ -12,16 +12,33 @@ export class TrainingService {
     const trainings = await this.dynamoDBService.getAllTrainings();
     return trainings;
   }
+  async getAllTrainingsByStudentId(studentId: string): Promise<Training[]> {
+    const trainings =
+      await this.dynamoDBService.getAllTrainingsByStudentId(studentId);
+    return trainings;
+  }
+  async getAllTrainingsByTrainerId(trainerId: string): Promise<Training[]> {
+    const trainings =
+      await this.dynamoDBService.getAllTrainingsByTrainerId(trainerId);
+    return trainings;
+  }
+  async getAllTrainingTypes(): Promise<TrainingType[]> {
+    const trainings = await this.dynamoDBService.getAllTrainingTypes();
+    return trainings;
+  }
 
-  async postTraining(createTrainingDto: CreateTrainingDto): Promise<Training> {
+  async addTraining(createTrainingDto: CreateTrainingDto): Promise<Training> {
     const training = { ...createTrainingDto };
     await this.dynamoDBService.postTraining(training);
     return training;
   }
 
   async searchTrainings(searchTrainingDto: SearchTrainingsDto) {
+    const search = { ...searchTrainingDto };
     const trainings =
-      await this.dynamoDBService.searchTrainings(searchTrainingDto);
+      await this.dynamoDBService.getAllTrainingsByTrainerNameSpecializationDate(
+        search,
+      );
     return trainings;
   }
 }

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "type-1",
+    "trainingType": "Nodejs"
+  },
+  {
+    "id": "type-2",
+    "trainingType": "Python"
+  },
+  {
+    "id": "type-3",
+    "trainingType": "Java"
+  },
+  {
+    "id": "type-4",
+    "trainingType": "Ruby"
+  },
+  {
+    "id": "type-5",
+    "trainingType": "C#"
+  },
+  {
+    "id": "type-6",
+    "trainingType": "Go"
+  },
+  {
+    "id": "type-7",
+    "trainingType": "PHP"
+  },
+  {
+    "id": "type-8",
+    "trainingType": "Swift"
+  },
+  {
+    "id": "type-9",
+    "trainingType": "Kotlin"
+  },
+  {
+    "id": "type-10",
+    "trainingType": "TypeScript"
+  }
+]

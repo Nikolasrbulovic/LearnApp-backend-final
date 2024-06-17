@@ -1,6 +1,9 @@
-import { IsString, IsOptional,  } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateTraierDto {
+  @IsString()
+  trainerFullName: string;
+
   @IsString()
   id: string;
 
@@ -8,5 +11,5 @@ export class CreateTraierDto {
   userId: string;
 
   @IsString()
-  specializationId:string;
+  specializationId: string;
 }

@@ -42,7 +42,10 @@ export const getMe = async (event: any) => {
     const studentData = await userService.getStudent(userData.id);
     return {
       statusCode: 200,
-      body: JSON.stringify({ ...userData, ...studentData }),
+      body: JSON.stringify({
+        ...userData,
+        ...studentData,
+      }),
     };
   } catch (error) {
     return handleError(error);

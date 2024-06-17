@@ -1,29 +1,44 @@
 [
   {
     "id": "1",
-    "studentId": "student-123",
-    "trainerId": "trainer-456",
+    "student": {
+      "userId": "student-123",
+      "id": "student-123",
+      "address": "Address of Student 123"
+    },
+    "trainer": {
+      "userId": "trainer-456",
+      "id": "trainer-456",
+      "specializationId": "specific-specialization"
+    },
     "name": "Javascript",
     "type": {
-      "id": "type-1",
-      "type": "React"
+      "id": "type-2",
+      "type": "JavaScript"
     },
     "date": "2024-06-12T06:00:00Z",
     "duration": 60,
-    "description": "A Js training."
+    "description": "A JavaScript training."
   },
   {
     "id": "2",
-    "studentId": "student-12455",
-    "trainerId": "trainer-45655",
-    "name": "javascript",
+    "student": {
+      "userId": "student-12455",
+      "id": "student-12455",
+      "address": "Address of Student 12455"
+    },
+    "trainer": {
+      "userId": "trainer-45655",
+      "id": "trainer-45655",
+      "specializationId": "another-specialization"
+    },
+    "name": "Javascript",
     "type": {
       "id": "type-1",
-      "type": "Nodejs"
+      "type": "JavaScript"
     },
     "date": "2024-06-12T06:00:00Z",
     "duration": 60,
-    "description": "A Js training."
+    "description": "A JavaScript training."
   }
-
 ]

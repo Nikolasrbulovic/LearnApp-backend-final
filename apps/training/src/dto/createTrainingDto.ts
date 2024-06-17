@@ -1,15 +1,25 @@
-import { IsString, IsNotEmpty, IsOptional, IsDateString, IsNumber, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsDateString,
+  IsNumber,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { TrainingType } from '../training.entity';
+import { Student, Trainer } from 'apps/users/src/user.entity';
 
 export class CreateTrainingDto {
-  @IsString()
+  @ValidateNested()
+  @Type(() => Student)
   @IsNotEmpty()
-  studentId: string;
+  student: Student;
 
-  @IsString()
+  @ValidateNested()
+  @Type(() => Trainer)
   @IsNotEmpty()
-  trainerId: string;
+  trainer: Trainer;
 
   @IsString()
   @IsNotEmpty()

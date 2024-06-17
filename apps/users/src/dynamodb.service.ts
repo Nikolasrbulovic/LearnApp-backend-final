@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { Student, Trainer, User } from './user.entity';
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { Specialization } from './specialization.entity';
 
 @Injectable()
@@ -186,6 +185,7 @@ export class DynamoDBService {
       throw new Error(`Unable to fetch trainer by userId: ${error.message}`);
     }
   }
+
   async getStudentByUserId(userId: string): Promise<Student | null> {
     const params = {
       TableName: 'students',

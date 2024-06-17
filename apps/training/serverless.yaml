@@ -25,25 +25,32 @@ custom:
 
 functions:
   getTrainings:
-    handler: dist/training/src/lambdas/get-trainings.getTrainings
+    handler: dist/apps/training/src/lambdas/get-trainings.getTrainings
     events:
       - http:
           method: get
           path: /trainings
           cors: true
   postTraining:
-    handler: dist/training/src/lambdas/post-training.postTraining
+    handler: dist/apps/training/src/lambdas/post-training.postTraining
     events:
       - http:
           method: post
           path: /trainings
           cors: true
   searchTrainings:
-    handler: dist/training/src/lambdas/search-trainings.searchTrainings
+    handler: dist/apps/training/src/lambdas/search-trainings.searchTrainings
     events:
       - http:
           method: get
           path: /trainings/search
+          cors: true
+  getAllTrainingTypes:
+    handler: dist/apps/training/src/lambdas/get-training-types.getTrainingTypes
+    events:
+      - http:
+          method: get
+          path: /trainings/trainingTypes
           cors: true
 
 provider:

@@ -68,6 +68,16 @@
                         ]
                       }
                     ]
+                  },
+                  "training-type": {
+                    "sources": [
+                      {
+                        "table": "trainingType",
+                        "sources": [
+                          "./seed/training-type.json"
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -366,6 +376,28 @@
                   "Type": "AWS::DynamoDB::Table",
                   "Properties": {
                     "TableName": "trainings",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
+                },
+                "TrainingTypesTable": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "trainingType",
                     "AttributeDefinitions": [
                       {
                         "AttributeName": "id",
@@ -459,6 +491,16 @@
                         ]
                       }
                     ]
+                  },
+                  "training-type": {
+                    "sources": [
+                      {
+                        "table": "trainingType",
+                        "sources": [
+                          "./seed/training-type.json"
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -757,6 +799,28 @@
                   "Type": "AWS::DynamoDB::Table",
                   "Properties": {
                     "TableName": "trainings",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
+                },
+                "TrainingTypesTable": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "trainingType",
                     "AttributeDefinitions": [
                       {
                         "AttributeName": "id",
@@ -850,6 +914,16 @@
                         ]
                       }
                     ]
+                  },
+                  "training-type": {
+                    "sources": [
+                      {
+                        "table": "trainingType",
+                        "sources": [
+                          "./seed/training-type.json"
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -1165,6 +1239,28 @@
                       "WriteCapacityUnits": 5
                     }
                   }
+                },
+                "TrainingTypesTable": {
+                  "Type": "AWS::DynamoDB::Table",
+                  "Properties": {
+                    "TableName": "trainingType",
+                    "AttributeDefinitions": [
+                      {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                      }
+                    ],
+                    "KeySchema": [
+                      {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                      }
+                    ],
+                    "ProvisionedThroughput": {
+                      "ReadCapacityUnits": 5,
+                      "WriteCapacityUnits": 5
+                    }
+                  }
                 }
               }
             }
@@ -1239,6 +1335,16 @@
                   "table": "trainings",
                   "sources": [
                     "./seed/trainings.json"
+                  ]
+                }
+              ]
+            },
+            "training-type": {
+              "sources": [
+                {
+                  "table": "trainingType",
+                  "sources": [
+                    "./seed/training-type.json"
                   ]
                 }
               ]
@@ -1557,11 +1663,33 @@
                 "WriteCapacityUnits": 5
               }
             }
+          },
+          "TrainingTypesTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "trainingType",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ],
+              "ProvisionedThroughput": {
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+              }
+            }
           }
         }
       }
     },
-    "serviceRawFile": "service: users\r\n\r\nplugins:\r\n  - serverless-dotenv-plugin\r\n  - serverless-dynamodb\r\n  - serverless-offline\r\n\r\ncustom:\r\n  serverless-offline:\r\n    httpPort: 3003\r\n    lambdaPort: 3005\r\n  serverless-dynamodb:\r\n    start:\r\n      port: 8000\r\n      docker: false\r\n      seed: true\r\n      migrate: true\r\n    seed:\r\n      users:\r\n        sources:\r\n          - table: users\r\n            sources: [./seed/users.json]\r\n      specializations:\r\n        sources:\r\n          - table: specializations\r\n            sources: [./seed/specializations.json]\r\n      trainers:\r\n        sources:\r\n          - table: trainers\r\n            sources: [./seed/trainers.json]\r\n      trainings:\r\n        sources:\r\n          - table: trainings\r\n            sources: [./seed/trainings.json]\r\n\r\nfunctions:\r\n  register:\r\n    handler: dist/apps/users/src/lambdas/register.register\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: auth/register\r\n          cors: true\r\n  login:\r\n    handler: dist/apps/users/src/lambdas/login.login\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: auth/login\r\n          cors: true\r\n  getMe:\r\n    handler: dist/apps/users/src/lambdas/get-me.getMe\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: users/me\r\n          cors: true\r\n  deleteUser:\r\n    handler: dist/apps/users/src/lambdas/delete-user.deleteUser\r\n    events:\r\n      - http:\r\n          method: delete\r\n          path: users/me\r\n          cors: true\r\n  uploadPhoto:\r\n    handler: dist/apps/users/src/lambdas/upload-photo.uploadPhoto\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: users/upload-photo\r\n          cors: true\r\n  updatePassword:\r\n    handler: dist/apps/users/src/lambdas/update-password.updatePassword\r\n    events:\r\n      - http:\r\n          method: put\r\n          path: users/update-password\r\n          cors: true\r\n  getSpecializations:\r\n    handler: dist/apps/users/src/lambdas/get-specializations.getSpecializations\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: users/specializations\r\n          cors: true\r\n\r\nprovider:\r\n  name: aws\r\n  region: eu-central-1\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  environment:\r\n    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}\r\n    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:Query\r\n            - dynamodb:Scan\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n          Resource:\r\n            - 'arn:aws:dynamodb:us-east-1:471112551028:table/users'\r\n        - Effect: Allow\r\n          Action:\r\n            - s3:PutObject\r\n            - s3:GetObject\r\n            - s3:ListBucket\r\n          Resource:\r\n            - 'arn:aws:s3:::lambda-dependency-bucket'\r\n            - 'arn:aws:s3:::lambda-dependency-bucket/*'\r\n\r\npackage:\r\n  excludeDevDependencies: true\r\n  patterns:\r\n    - '!src/**'\r\n    - dist/**\r\n    - '!node_modules/**'\r\n    - '!test/**'\r\n\r\nresources:\r\n  Resources:\r\n    UsersTable:\r\n      Type: 'AWS::DynamoDB::Table'\r\n      Properties:\r\n        TableName: users\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: username\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: UsernameIndex\r\n            KeySchema:\r\n              - AttributeName: username\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    SpecializationsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: specializations\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n\r\n    TrainersTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainers\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: userId\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: userIdIndex\r\n            KeySchema:\r\n              - AttributeName: userId\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    StudentsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: students\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: userId\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: userIdIndex\r\n            KeySchema:\r\n              - AttributeName: userId\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    TrainingsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainings\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n",
+    "serviceRawFile": "service: users\r\n\r\nplugins:\r\n  - serverless-dotenv-plugin\r\n  - serverless-dynamodb\r\n  - serverless-offline\r\n\r\ncustom:\r\n  serverless-offline:\r\n    httpPort: 3003\r\n    lambdaPort: 3005\r\n  serverless-dynamodb:\r\n    start:\r\n      port: 8000\r\n      docker: false\r\n      seed: true\r\n      migrate: true\r\n    seed:\r\n      users:\r\n        sources:\r\n          - table: users\r\n            sources: [./seed/users.json]\r\n      specializations:\r\n        sources:\r\n          - table: specializations\r\n            sources: [./seed/specializations.json]\r\n      trainers:\r\n        sources:\r\n          - table: trainers\r\n            sources: [./seed/trainers.json]\r\n      trainings:\r\n        sources:\r\n          - table: trainings\r\n            sources: [./seed/trainings.json]\r\n      training-type:\r\n        sources:\r\n          - table: trainingType\r\n            sources: [./seed/training-type.json]\r\n\r\nfunctions:\r\n  register:\r\n    handler: dist/apps/users/src/lambdas/register.register\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: auth/register\r\n          cors: true\r\n  login:\r\n    handler: dist/apps/users/src/lambdas/login.login\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: auth/login\r\n          cors: true\r\n  getMe:\r\n    handler: dist/apps/users/src/lambdas/get-me.getMe\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: users/me\r\n          cors: true\r\n  deleteUser:\r\n    handler: dist/apps/users/src/lambdas/delete-user.deleteUser\r\n    events:\r\n      - http:\r\n          method: delete\r\n          path: users/me\r\n          cors: true\r\n  uploadPhoto:\r\n    handler: dist/apps/users/src/lambdas/upload-photo.uploadPhoto\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: users/upload-photo\r\n          cors: true\r\n  updatePassword:\r\n    handler: dist/apps/users/src/lambdas/update-password.updatePassword\r\n    events:\r\n      - http:\r\n          method: put\r\n          path: users/update-password\r\n          cors: true\r\n  getSpecializations:\r\n    handler: dist/apps/users/src/lambdas/get-specializations.getSpecializations\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: users/specializations\r\n          cors: true\r\n\r\nprovider:\r\n  name: aws\r\n  region: eu-central-1\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  environment:\r\n    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}\r\n    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:Query\r\n            - dynamodb:Scan\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n          Resource:\r\n            - 'arn:aws:dynamodb:us-east-1:471112551028:table/users'\r\n        - Effect: Allow\r\n          Action:\r\n            - s3:PutObject\r\n            - s3:GetObject\r\n            - s3:ListBucket\r\n          Resource:\r\n            - 'arn:aws:s3:::lambda-dependency-bucket'\r\n            - 'arn:aws:s3:::lambda-dependency-bucket/*'\r\n\r\npackage:\r\n  excludeDevDependencies: true\r\n  patterns:\r\n    - '!src/**'\r\n    - dist/**\r\n    - '!node_modules/**'\r\n    - '!test/**'\r\n\r\nresources:\r\n  Resources:\r\n    UsersTable:\r\n      Type: 'AWS::DynamoDB::Table'\r\n      Properties:\r\n        TableName: users\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: username\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: UsernameIndex\r\n            KeySchema:\r\n              - AttributeName: username\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    SpecializationsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: specializations\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n\r\n    TrainersTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainers\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: userId\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: userIdIndex\r\n            KeySchema:\r\n              - AttributeName: userId\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    StudentsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: students\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n          - AttributeName: userId\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n        GlobalSecondaryIndexes:\r\n          - IndexName: userIdIndex\r\n            KeySchema:\r\n              - AttributeName: userId\r\n                KeyType: HASH\r\n            Projection:\r\n              ProjectionType: ALL\r\n            ProvisionedThroughput:\r\n              ReadCapacityUnits: 5\r\n              WriteCapacityUnits: 5\r\n    TrainingsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainings\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n\r\n    TrainingTypesTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainingType\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n",
     "command": [
       "dynamodb",
       "start"

@@ -2,11 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { TrainingService } from '../training.service';
 import { TrainingModule } from '../training.module';
+import { handleError } from 'shared/utils/handleError';
+import { UserService } from 'apps/users/src/users.service';
 
 export const getTrainings = async (event: any) => {
   try {
     const app = await NestFactory.create(TrainingModule);
     const trainingService = app.get(TrainingService);
+    const userService = app.get(UserService);
     const jwtService = app.get(JwtService);
 
     const token = event.headers.Authorization.split(' ')[1];
@@ -18,17 +21,30 @@ export const getTrainings = async (event: any) => {
     if (!decodedToken) {
       throw new Error('Invalid token');
     }
+    const { userType, username } = decodedToken;
 
-    const trainingsData = await trainingService.getAllTrainings();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ ...trainingsData }),
-    };
+    const user = await userService.getUser(username);
+    if (userType == 'trainer') {
+      const trainer = await userService.getTrainer(user.id);
+      const trainings = await trainingService.getAllTrainingsByTrainerId(
+        trainer.id,
+      );
+      return {
+        statusCode: 200,
+        body: JSON.stringify(trainings),
+      };
+    } else {
+      const student = await userService.getStudent(user.id);
+      const trainings = await trainingService.getAllTrainingsByStudentId(
+        student.id,
+      );
+      console.log(trainings, student);
+      return {
+        statusCode: 200,
+        body: JSON.stringify(trainings),
+      };
+    }
   } catch (error) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ message: 'Unauthorized' }),
-    };
+    return handleError(error);
   }
 };

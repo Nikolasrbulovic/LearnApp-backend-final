@@ -32,6 +32,10 @@ custom:
         sources:
           - table: trainings
             sources: [./seed/trainings.json]
+      training-type:
+        sources:
+          - table: trainingType
+            sources: [./seed/training-type.json]
 
 functions:
   register:
@@ -215,6 +219,20 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: trainings
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+    TrainingTypesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: trainingType
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

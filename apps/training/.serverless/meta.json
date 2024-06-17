@@ -506,9 +506,8 @@
             },
             "custom": {
               "serverless-offline": {
-                "httpPort": 3003,
-                "host": "0.0.0.0",
-                "lambdaPort": 3005
+                "httpPort": 3004,
+                "lambdaPort": 3006
               },
               "serverless-dynamodb": {
                 "start": {
@@ -516,18 +515,6 @@
                   "docker": false,
                   "seed": true,
                   "migrate": true
-                },
-                "seed": {
-                  "trainings": {
-                    "sources": [
-                      {
-                        "table": "trainings",
-                        "sources": [
-                          "./seed/trainings.json"
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             },
@@ -601,32 +588,6 @@
                 }
               },
               "versionFunctions": true
-            },
-            "resources": {
-              "Resources": {
-                "TrainingsTable": {
-                  "Type": "AWS::DynamoDB::Table",
-                  "Properties": {
-                    "TableName": "trainings",
-                    "AttributeDefinitions": [
-                      {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                      }
-                    ],
-                    "KeySchema": [
-                      {
-                        "AttributeName": "id",
-                        "KeyType": "HASH"
-                      }
-                    ],
-                    "ProvisionedThroughput": {
-                      "ReadCapacityUnits": 5,
-                      "WriteCapacityUnits": 5
-                    }
-                  }
-                }
-              }
             }
           },
           "configFileDirPath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\LearnApp-backend-final\\apps\\training",
@@ -661,9 +622,8 @@
             },
             "custom": {
               "serverless-offline": {
-                "httpPort": 3003,
-                "host": "0.0.0.0",
-                "lambdaPort": 3005
+                "httpPort": 3004,
+                "lambdaPort": 3006
               },
               "serverless-dynamodb": {
                 "start": {
@@ -671,18 +631,6 @@
                   "docker": false,
                   "seed": true,
                   "migrate": true
-                },
-                "seed": {
-                  "trainings": {
-                    "sources": [
-                      {
-                        "table": "trainings",
-                        "sources": [
-                          "./seed/trainings.json"
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             },
@@ -756,32 +704,6 @@
                 }
               },
               "versionFunctions": true
-            },
-            "resources": {
-              "Resources": {
-                "TrainingsTable": {
-                  "Type": "AWS::DynamoDB::Table",
-                  "Properties": {
-                    "TableName": "trainings",
-                    "AttributeDefinitions": [
-                      {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                      }
-                    ],
-                    "KeySchema": [
-                      {
-                        "AttributeName": "id",
-                        "KeyType": "HASH"
-                      }
-                    ],
-                    "ProvisionedThroughput": {
-                      "ReadCapacityUnits": 5,
-                      "WriteCapacityUnits": 5
-                    }
-                  }
-                }
-              }
             }
           },
           "configFileDirPath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\LearnApp-backend-final\\apps\\training",
@@ -816,9 +738,8 @@
             },
             "custom": {
               "serverless-offline": {
-                "httpPort": 3003,
-                "host": "0.0.0.0",
-                "lambdaPort": 3005
+                "httpPort": 3004,
+                "lambdaPort": 3006
               },
               "serverless-dynamodb": {
                 "start": {
@@ -826,18 +747,6 @@
                   "docker": false,
                   "seed": true,
                   "migrate": true
-                },
-                "seed": {
-                  "trainings": {
-                    "sources": [
-                      {
-                        "table": "trainings",
-                        "sources": [
-                          "./seed/trainings.json"
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             },
@@ -911,32 +820,6 @@
                 }
               },
               "versionFunctions": true
-            },
-            "resources": {
-              "Resources": {
-                "TrainingsTable": {
-                  "Type": "AWS::DynamoDB::Table",
-                  "Properties": {
-                    "TableName": "trainings",
-                    "AttributeDefinitions": [
-                      {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                      }
-                    ],
-                    "KeySchema": [
-                      {
-                        "AttributeName": "id",
-                        "KeyType": "HASH"
-                      }
-                    ],
-                    "ProvisionedThroughput": {
-                      "ReadCapacityUnits": 5,
-                      "WriteCapacityUnits": 5
-                    }
-                  }
-                }
-              }
             }
           },
           "configFileDirPath": "C:\\Users\\nsrbu\\OneDrive\\Desktop\\praksa-finalni-projekat\\LearnApp-backend-final\\apps\\training",
@@ -972,9 +855,8 @@
       },
       "custom": {
         "serverless-offline": {
-          "httpPort": 3003,
-          "host": "0.0.0.0",
-          "lambdaPort": 3005
+          "httpPort": 3004,
+          "lambdaPort": 3006
         },
         "serverless-dynamodb": {
           "start": {
@@ -982,18 +864,6 @@
             "docker": false,
             "seed": true,
             "migrate": true
-          },
-          "seed": {
-            "trainings": {
-              "sources": [
-                {
-                  "table": "trainings",
-                  "sources": [
-                    "./seed/trainings.json"
-                  ]
-                }
-              ]
-            }
           }
         }
       },
@@ -1067,35 +937,9 @@
           }
         },
         "versionFunctions": true
-      },
-      "resources": {
-        "Resources": {
-          "TrainingsTable": {
-            "Type": "AWS::DynamoDB::Table",
-            "Properties": {
-              "TableName": "trainings",
-              "AttributeDefinitions": [
-                {
-                  "AttributeName": "id",
-                  "AttributeType": "S"
-                }
-              ],
-              "KeySchema": [
-                {
-                  "AttributeName": "id",
-                  "KeyType": "HASH"
-                }
-              ],
-              "ProvisionedThroughput": {
-                "ReadCapacityUnits": 5,
-                "WriteCapacityUnits": 5
-              }
-            }
-          }
-        }
       }
     },
-    "serviceRawFile": "service: trainings\r\n\r\nplugins:\r\n  - serverless-dynamodb\r\n  - serverless-offline\r\n  - serverless-dotenv-plugin\r\npackage:\r\n  excludeDevDependencies: true\r\n  patterns:\r\n    - '!src/**'\r\n    - dist/**\r\n    - '!node_modules/**'\r\n    - '!test/**'\r\n\r\ncustom:\r\n  serverless-offline:\r\n    httpPort: 3003\r\n    host: 0.0.0.0\r\n    lambdaPort: 3005\r\n  serverless-dynamodb:\r\n    start:\r\n      port: 8000\r\n      docker: false\r\n      seed: true\r\n      migrate: true\r\n    seed:\r\n      trainings:\r\n        sources:\r\n          - table: trainings\r\n            sources: [./seed/trainings.json]\r\n\r\nfunctions:\r\n  getTrainings:\r\n    handler: dist/training/src/lambdas/get-trainings.getTrainings\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: /trainings\r\n          cors: true\r\n  postTraining:\r\n    handler: dist/training/src/lambdas/post-training.postTraining\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: /trainings\r\n          cors: true\r\n  searchTrainings:\r\n    handler: dist/training/src/lambdas/search-trainings.searchTrainings\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: /trainings/search\r\n          cors: true\r\n\r\nprovider:\r\n  name: aws\r\n  region: eu-central-1\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  environment:\r\n    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}\r\n    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:Query\r\n            - dynamodb:Scan\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n          Resource:\r\n            - 'arn:aws:dynamodb:us-east-1:471112551028:table/trainings'\r\n\r\nresources:\r\n  Resources:\r\n    TrainingsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: trainings\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n        ProvisionedThroughput:\r\n          ReadCapacityUnits: 5\r\n          WriteCapacityUnits: 5\r\n",
+    "serviceRawFile": "service: trainings\r\n\r\nplugins:\r\n  - serverless-dynamodb\r\n  - serverless-offline\r\n  - serverless-dotenv-plugin\r\npackage:\r\n  excludeDevDependencies: true\r\n  patterns:\r\n    - '!src/**'\r\n    - dist/**\r\n    - '!node_modules/**'\r\n    - '!test/**'\r\n\r\ncustom:\r\n  serverless-offline:\r\n    httpPort: 3004\r\n    lambdaPort: 3006\r\n  serverless-dynamodb:\r\n    start:\r\n      port: 8000\r\n      docker: false\r\n      seed: true\r\n      migrate: true\r\n\r\nfunctions:\r\n  getTrainings:\r\n    handler: dist/training/src/lambdas/get-trainings.getTrainings\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: /trainings\r\n          cors: true\r\n  postTraining:\r\n    handler: dist/training/src/lambdas/post-training.postTraining\r\n    events:\r\n      - http:\r\n          method: post\r\n          path: /trainings\r\n          cors: true\r\n  searchTrainings:\r\n    handler: dist/training/src/lambdas/search-trainings.searchTrainings\r\n    events:\r\n      - http:\r\n          method: get\r\n          path: /trainings/search\r\n          cors: true\r\n\r\nprovider:\r\n  name: aws\r\n  region: eu-central-1\r\n  runtime: nodejs18.x\r\n  stage: dev\r\n  environment:\r\n    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}\r\n    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:Query\r\n            - dynamodb:Scan\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n          Resource:\r\n            - 'arn:aws:dynamodb:us-east-1:471112551028:table/trainings'\r\n",
     "command": [
       "dynamodb",
       "start"
