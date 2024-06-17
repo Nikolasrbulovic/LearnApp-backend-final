@@ -102,7 +102,7 @@ provider:
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    LOCAL_ENDPOINT: ${env:LOCAL_ENDPOINT}
+
   iam:
     role:
       statements:
