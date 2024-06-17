@@ -249,10 +249,10 @@ export class DynamoDBService {
       await this.updateTrainerDetails(fullName);
     }
   }
-  async updateTrainerDetails(trainerFullName: string) {}
+  async updateTrainerDetails(fullName: string) {}
   async updateStudentDetails(
     userId: string,
-    studentFullName: string,
+    fullName: string,
     dateOfBirth?: string,
     address?: string,
   ): Promise<void> {
@@ -269,8 +269,8 @@ export class DynamoDBService {
     let updateExpression = '';
     const expressionAttributeValues: { [key: string]: any } = {};
 
-    updateExpression += 'set studentFullName = :studentFullName';
-    expressionAttributeValues[':studentFullName'] = studentFullName;
+    updateExpression += 'set fullName = :fullName';
+    expressionAttributeValues[':fullName'] = fullName;
 
     if (dateOfBirth) {
       updateExpression += ', dateOfBirth = :dateOfBirth';

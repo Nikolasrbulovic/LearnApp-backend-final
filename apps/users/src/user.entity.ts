@@ -15,11 +15,11 @@ export class Student {
   userId: string;
   dateOfBirth?: string;
   address?: string;
-  studentFullName: string;
+  fullName: string;
 }
 
 export class Trainer {
-  trainerFullName: string;
+  fullName: string;
   id: string;
   userId: string;
   specializationId: string;

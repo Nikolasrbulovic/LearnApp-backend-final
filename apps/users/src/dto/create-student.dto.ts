@@ -8,7 +8,7 @@ export class CreateStudentDto {
   userId: string;
 
   @IsString()
-  studentFullName: string;
+  fullName: string;
 
   @IsString()
   @IsOptional()

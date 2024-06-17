@@ -11,7 +11,7 @@ export class UpdateStudentDto {
 
   @IsString()
   @IsOptional()
-  studentFullName?: string;
+  fullName?: string;
 
   @IsString()
   @IsOptional()

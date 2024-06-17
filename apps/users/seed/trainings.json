@@ -4,12 +4,14 @@
     "student": {
       "userId": "student-123",
       "id": "student-123",
-      "address": "Address of Student 123"
+      "address": "Address of Student 123",
+      "fullName": "john doe"
     },
     "trainer": {
       "userId": "trainer-456",
       "id": "trainer-456",
-      "specializationId": "specific-specialization"
+      "specializationId": "specific-specialization",
+      "fullName": "john doe"
     },
     "name": "Javascript",
     "type": {
@@ -25,12 +27,14 @@
     "student": {
       "userId": "student-12455",
       "id": "student-12455",
-      "address": "Address of Student 12455"
+      "address": "Address of Student 12455",
+      "fullName": "john doe"
     },
     "trainer": {
       "userId": "trainer-45655",
       "id": "trainer-45655",
-      "specializationId": "another-specialization"
+      "specializationId": "another-specialization",
+      "fullName": "john doe"
     },
     "name": "Javascript",
     "type": {

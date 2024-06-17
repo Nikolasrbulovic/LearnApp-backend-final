@@ -40,7 +40,7 @@ export const register = async (event: any) => {
         id: generateUniqueID(),
         userId: newUser.id,
         specializationId: userData.specializationId,
-        trainerFullName: `${newUser.firstName} ${newUser.lastName}`,
+        fullName: `${newUser.firstName} ${newUser.lastName}`,
       };
 
       await userService.addTrainer(trainer);
@@ -50,7 +50,7 @@ export const register = async (event: any) => {
         userId: newUser.id,
         dateOfBirth: userData.dateOfBirth,
         address: userData.address,
-        studentFullName: `${newUser.firstName} ${newUser.lastName}`,
+        fullName: `${newUser.firstName} ${newUser.lastName}`,
       };
 
       await userService.addStudent(student);
